@@ -179,7 +179,7 @@ class BIController extends Controller {
         $centroinfo = DB::table('cedulados')->select($aux);
 
         $centroinfo->where('cedula','=','24674966');
-         
+
 
 
 

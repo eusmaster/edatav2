@@ -8,7 +8,35 @@
                 <div class="panel-heading">Welcome</div>
 
                 <div class="panel-body">
-                   Inicie sesion para continuar.
+                   Noticias:
+                   Sistema de consultas V 1.0
+                   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("button").click(function(){
+        $("#test").hide();
+    });
+});
+</script>
+</head>
+<body>
+
+<h2>This is a heading</h2>
+
+<p>This is a paragraph.</p>
+<p id="test">This is another paragraph.</p>
+
+<button id="hola">Click me</button>
+
+<button type="button"
+onclick="document.getElementById('demo').innerHTML = Date()">
+Click me to display Date and Time.</button>
+
+<p id="demo"></p>
+
+                   
+                   
+                   
                 </div>
             </div>
         </div>
