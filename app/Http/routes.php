@@ -64,3 +64,4 @@ Route::get('bic/{cod_edo}/{cod_mun}/{cod_par}','BIController@getCentro');
 Route::get('prueba','BIController@test'); // ojo con los ( y las {{{{{{ llaves !!!!!!!<------------
 Route::post('prueba2','BIController@test2');
 Route::post('prueba3','BIController@test3');
+Route::get('/prueba4','MuestrasController@test');

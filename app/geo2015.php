@@ -12,4 +12,11 @@ class geo2015 extends Model
         return geo2015::where('cod_edo','=',$cod_edo)->get();
 
     }
+
+    private  function damecod($geo, $int){
+
+   	 return $geo::where('cod_edo','=', $int)->get();
+    }
+
+   
 }
