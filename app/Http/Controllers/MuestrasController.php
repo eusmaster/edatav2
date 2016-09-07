@@ -16,18 +16,30 @@ class MuestrasController extends Controller
         $this->middleware('auth');
     }
 
-    public function test()
+    public function test()// pruebas geograficas! Down ?
     {
-    	
+
+
+       $cond[0]= [ ['cod_edo','=','2'] , ['cod_mun','=','3'], ['cod_par','=','2'] ];
+        $cond[1]=  [ ['cod_edo','=','1'] , ['cod_mun','=','1'], ['cod_par','=','1']];
+
+        foreach ($cond as $cond)
+        {
+            $consulta= DB::table('geo2015')->where('cod_edo', [1, 2, 3] ,'cod_mun',[1,2,3])
+                ->get();
+        }
+
+
+//funciona pero aun no veo el metodo recursivo para aplicarlo. standby ?
+        /*
 		  $consulta= DB::table('geo2015')->where (
-            [ ['cod_edo','=','2'] , ['cod_mun','=','3'], ['cod_par','=','2']]);
+            [ ['cod_edo','=','2'] , ['cod_mun','=','3'], ['cod_par','=','2'] ]);
 
 
               $consulta2=DB::table('geo2015')->where (
-                  [ ['cod_edo','=','1'] , ['cod_mun','=','3'], ['cod_par','=','5']]) ->unionAll($consulta)->get();
+                  [ ['cod_edo','=','1'] , ['cod_mun','=','1'], ['cod_par','=','1']]) ->union($consulta)->get();
 
-
-
+*/
 
     	 /*$centroinfo = DB::table('geo2015')
 
@@ -46,7 +58,7 @@ class MuestrasController extends Controller
 
         //$total[1]=$total[1]->where('cod_edo','=',4);
         */
-         var_dump($consulta2);
+         var_dump($consulta);
         
 
     }
@@ -73,6 +85,7 @@ class MuestrasController extends Controller
     public function respuesta(Request $request)
     {
         $aux= $request->campo;
+        //$geo=$request->geografico;
         $test=["cedula","Primer_nombre"];
 
         $centroinfo = DB::table('cedulados')->select($aux)
@@ -83,6 +96,8 @@ class MuestrasController extends Controller
             ->when($request->sexo, function ($query) use ($request) {       // preguntamos para filtrar por Sexo
                 return $query->where('sexo','=', $request->sexo);
             })
+
+
 
 
 
