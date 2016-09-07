@@ -148,7 +148,6 @@ class BIController extends Controller {
 
         for ($i=0; $i<13 ;$i++)
         {
-
         $aux[]=array($columns[$i] => $columns[$i]);
         }
 
@@ -172,21 +171,5 @@ class BIController extends Controller {
             //view('Muestras.captura',['centro' =>$centroinfo]);
     }
 
-    public function test3(Request $request)
-    {
-       $aux= $request->campo;
 
-        $centroinfo = DB::table('cedulados')->select($aux);
-
-        $centroinfo->where('cedula','=','24674966');
-
-
-
-
-
-
-
-
-        return $centroinfo;
-    }
 }

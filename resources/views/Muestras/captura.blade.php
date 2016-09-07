@@ -29,6 +29,19 @@
                         </tr>
 
                         </table>
+                       <table border="true">
+                           <tr>
+                               <td> <label for="task-name" class="col-sm-3 control-label">Nacionalidad</label> </td><td>{{form::select('nacionalidad',['v' => 'Venezolano',
+                                'e' => 'Extrangero'],null,array('class' => 'form-control','placeholder' => ''))}}</td>
+
+
+
+                               <td> <label for="task-name" class="col-sm-3 control-label">Sexo</label> </td><td>{{form::select('sexo',['m' => 'Masculino',
+                                'f' => 'Femenino'],null,array('class' => 'form-control','placeholder' => ''))}}</td>
+
+                           </tr>
+
+                       </table>
 
                          <button type="submit" class="btn btn-default" id="alerta">
                                 Buscar    <i class="fa fa-search" aria-hidden="true"></i> 
@@ -44,6 +57,8 @@
     </div>
 </div>
 </div>
+
+
 <script>
     $(document).ready(function() {
 
@@ -60,7 +75,7 @@
             {
                 FieldCount++;
 //agregar campo
-                $(tabla).append('<tr><td>{{Form::select('campo[]',$data,null, array('class' =>'form-control','placeholder'=>'Seleccione el Estado'))  }}</td><td><a href="#" class="eliminar">&times;</a></td></tr>');
+                $(tabla).append('<tr><td>{{Form::select('campo[]',$data,null, array('class' =>'form-control','placeholder'=>'Seleccione el Estado'))  }}</td><td><a href="#" class="eliminar">&times;.</a></td></tr>');
                     //'<div><select name="campos" id="campo" placeholder='+'"hjkhfkgkhg"'+'/><a href="#" class="eliminar">&times;</a></div>');
                 x++; //text box increment
 

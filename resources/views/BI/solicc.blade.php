@@ -26,7 +26,7 @@
 
                     <!-- Task Name -->
                     <div class="form-group">
-                        <label for="task-name" class="col-sm-3 control-label">Codigo de centro</label>
+                            <label for="task-name" class="col-sm-3 control-label">Codigo de centro</label>
 
                         <div class="col-sm-6">
                             <input type="text" name="name" id="ci" class="form-control" value="{{ old('task') }}">
