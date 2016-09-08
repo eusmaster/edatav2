@@ -13,22 +13,65 @@ use Zend\Form\Element;
 class MuestrasController extends Controller
 {
     public function __construct() {
-        $this->middleware('auth');
+    $this->middleware('auth');
+
+    }
+    public function traercva($cond)
+    {
+        $consulta= DB::table('cva')->select('cod_cen')->where($cond)->get();
+
+
+        return    $vector=$consulta;
+
+
+
+
+
     }
 
-    public function test()// pruebas geograficas! Down ?
+    public function test()// pruebas geograficas! Down
     {
+      /*
+       se buscara hacer una consulta que retorne un vector de codigos de centros electorales necesarios
+       para la consulta principla, ya que, las personas estan conectadas con su centro de votacion asi:
+       ( ci<->cod_cen), por ente, si logramos hacer una consulta que traiga la centros de votacion obtendremos
+       a las personas involucradas en la consulta principal.
+
+      */
 
 
-       $cond[0]= [ ['cod_edo','=','2'] , ['cod_mun','=','3'], ['cod_par','=','2'] ];
-        $cond[1]=  [ ['cod_edo','=','1'] , ['cod_mun','=','1'], ['cod_par','=','1']];
+       $conds[0]= [ ['cod_edo','=','2'] , ['cod_mun','=','3'], ['cod_par','=','2'] ];
+        $conds[1]=  [ ['cod_edo','=','1'] , ['cod_mun','=','1'], ['cod_par','=','1']];
+/*
+        $consulta= DB::table('cva')->select('cod_cen')
+        ->Where(function ($query) {
+                  foreach (this->$conds as this->$cond) {
+                $query->where([$cond])->get();
+              }});
 
-        foreach ($cond as $cond)
+*/
+            for ($i=0; $i <2 ; $i++) {
+              # code...
+
+            $consulta[]=$this->traercva($conds[0]);
+
+            }
+
+          foreach ($consulta as $consulta) {
+            $au= $consulta;
+            foreach ($au as $au) {
+              $vectorOr[]=['cod_cen','=',$au->cod_cen];
+            }
+
+                                            }
+        /*foreach ($cond as $cond)
         {
-            $consulta= DB::table('geo2015')->where('cod_edo', [1, 2, 3] ,'cod_mun',[1,2,3])
-                ->get();
-        }
+            $consulta= DB::table('geo2015')->select(cod_cen)
+            ->where('cod_edo', [1, 2, 3] ,'cod_mun',[1,2,3])
 
+                $aux[]=$consulta
+        }->get();
+        */
 
 //funciona pero aun no veo el metodo recursivo para aplicarlo. standby ?
         /*
@@ -48,18 +91,26 @@ class MuestrasController extends Controller
 
         $centroinfo2 = DB::table('geo2015')
         ->where('cod_edo','=','3');
-        
+
 
         $total[]=$centroinfo ;
         $total[]=$centroinfo2;
-       	
+
        	$centroinfo=$centroinfo->find('cod_edo','=','5')->get();
-        
+
 
         //$total[1]=$total[1]->where('cod_edo','=',4);
         */
-         var_dump($consulta);
-        
+      //$centroinfo2[] = DB::table('cva')->select('nombre')
+        foreach ($vectorOr as $vectorOr) {
+          $centroinfo2 = DB::table('cva')->select('nombre')
+          ->orWhere([$vectorOr])->get();
+        }
+        dd($centroinfo2);
+
+
+         //return ($centroinfo2);
+
 
     }
 
