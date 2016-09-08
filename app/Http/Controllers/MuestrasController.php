@@ -53,17 +53,16 @@ class MuestrasController extends Controller
             for ($i=0; $i <2 ; $i++) {
               # code...
 
-            $consulta[]=$this->traercva($conds[0]);
+            $consulta[]=$this->traercva($conds[$i]);
 
             }
 
           foreach ($consulta as $consulta) {
             $au= $consulta;
             foreach ($au as $au) {
-              $vectorOr[]=['cod_cen','=',$au->cod_cen];
+              $vectorOr[]=$au->cod_cen;
             }
-
-                                            }
+            }
         /*foreach ($cond as $cond)
         {
             $consulta= DB::table('geo2015')->select(cod_cen)
@@ -102,14 +101,14 @@ class MuestrasController extends Controller
         //$total[1]=$total[1]->where('cod_edo','=',4);
         */
       //$centroinfo2[] = DB::table('cva')->select('nombre')
-        foreach ($vectorOr as $vectorOr) {
+          //foreach ($vectorOr as $vectorOr) {
           $centroinfo2 = DB::table('cva')->select('nombre')
-          ->orWhere([$vectorOr])->get();
-        }
-        dd($centroinfo2);
+          ->WhereIn('cod_cen',$vectorOr)->get();
+      //  }
+       dd($centroinfo2,$vectorOr);
 
 
-         //return ($centroinfo2);
+         return ($centroinfo2);
 
 
     }
