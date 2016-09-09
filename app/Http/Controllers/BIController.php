@@ -72,21 +72,21 @@ class BIController extends Controller {
 
         public function centro(Request $request) {
         $this->validate($request, [
-            'name' => 'required|max:255',
+            'name' => 'digits:8|required|max:255',
         ]);
         $centro = DB::table('cva')->where('cod_cen', '=', $request->name)
                 ->join('geo2015', function ($join) {
             $join->on('cva.cod_edo', '=', 'geo2015.cod_edo')->On('cva.cod_mun', '=', 'geo2015.cod_mun')->On('cva.cod_par', '=', 'geo2015.cod_par');
         })
-                       
+
                 // ->join('geo2015', 'cva.cod_edo', '=', 'geo2015.edo_id')
               /*  ('geo2015', 'cva.cod_mun', '=', 'geo2015.mun_id'),
                  ('geo2015', 'cva.cod_par', '=', 'geo2015.par_id')*/
                  ->get();
          return view('bi.mostrarc',['centro'=>$centro]);
         }
-        
-        
+
+
     public function buscar(int $ci) {
 
         return view('bi.mostrar', [
@@ -96,7 +96,7 @@ class BIController extends Controller {
 
     public function prueba(Request $request) {
         $this->validate($request, [
-            'name' => 'required|max:255',
+            'name' => 'digits_between:1,20|required|max:255',
         ]);
         $users = DB::table('cedulados')->where('Cedula', '=', $request->name)->get();
 
