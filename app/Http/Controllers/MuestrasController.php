@@ -16,17 +16,24 @@ class MuestrasController extends Controller
     $this->middleware('auth');
 
     }
+
+    public function almacenargeo($request)
+    {
+      if($request->ajax())
+      {
+        $vector[]=['cod_edo','=',$request->estados];
+        dd($vector);
+          return response()->json($vector);
+      }
+
+    }
+
     public function traercva($cond)
     {
         $consulta= DB::table('cva')->select('cod_cen')->where($cond)->get();
 
 
         return    $vector=$consulta;
-
-
-
-
-
     }
 
     public function test()// pruebas geograficas! Down
@@ -126,8 +133,12 @@ class MuestrasController extends Controller
 
             $aux[]=array($columns[$i] => $columns[$i]);
         }
-
-        return view('Muestras.captura',['data'=>$aux]);
+        $geo=  DB::table('geo2015')         // ojo aca modificacion rara! xD <--------------------
+        ->select('edo', 'cod_edo')
+        ->groupBy('cod_edo')
+        ->get(anArray());
+        $geoss=geo2015::lists('edo', 'cod_edo');
+        return view('Muestras.captura',['data'=>$aux],compact('geoss'));
 
 
     }
@@ -147,22 +158,10 @@ class MuestrasController extends Controller
                 return $query->where('sexo','=', $request->sexo);
             })
 
-
-
-
-
             ->get();
-
-
-
-
 
         return $centroinfo;
         //$request->nacionalidad;
     }
-
-
-
-
 
 }

@@ -59,6 +59,7 @@ Route::post('/bic2','BIController@centro');
 Route::get('/bic/{cod_edo}','BIController@getMun');
 Route::get('bic/{cod_edo}/{cod_mun}','BIController@getparroquia');
 Route::get('bic/{cod_edo}/{cod_mun}/{cod_par}','BIController@getCentro');
+//Route::post('muestras#','MuestrasController@almacenargeo');
 
 // RUTAS DE PRUEBA TEMPORALES:
 Route::get('muestras','MuestrasController@enviardata'); // ojo con los ( y las {{{{{{ llaves !!!!!!!<------------

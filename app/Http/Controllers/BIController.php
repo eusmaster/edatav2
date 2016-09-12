@@ -72,7 +72,7 @@ class BIController extends Controller {
 
         public function centro(Request $request) {
         $this->validate($request, [
-            'name' => 'digits:8|required|max:255',
+            'name' => 'digits_between:1,20|required|max:255',
         ]);
         $centro = DB::table('cva')->where('cod_cen', '=', $request->name)
                 ->join('geo2015', function ($join) {
