@@ -66,3 +66,4 @@ Route::get('muestras','MuestrasController@enviardata'); // ojo con los ( y las {
 Route::post('prueba2','BIController@test2');
 Route::post('prueba3','MuestrasController@respuesta');
 Route::get('/prueba4','MuestrasController@test');
+Route::get('prueba/{cod_edo}/{cod_mun}/{cod_par}/{cod_cen}','MuestrasController@fumexxx');

@@ -12,6 +12,8 @@ use Zend\Form\Element;
 
 class MuestrasController extends Controller
 {
+  public  $vectordeprueba;
+
     public function __construct() {
     $this->middleware('auth');
 
@@ -30,10 +32,62 @@ class MuestrasController extends Controller
 
     public function traercva($cond)
     {
+
         $consulta= DB::table('cva')->select('cod_cen')->where($cond)->get();
 
 
         return    $vector=$consulta;
+    }
+
+   /* Metodo que utiliza el JVASCRt para agregar los centros electorales a la consulta
+    * en teoria pasa los codigos GEOGRAFICOS y devuelve un vector con codigos de centros electorales :D
+    *algo que se requiere en las consultas por electores
+    *
+    *
+    */
+
+
+
+    public function fumexxx(Request $request,$cod_edo,$cod_mun,$cod_par,$cod_cen)
+    {
+      if($request->ajax())
+      {
+        if($cod_cen != 0)
+        {
+            $consul=DB::table('cva')->select("cod_cen")->where("cod_cen","=",$cod_cen)
+            ->get();
+
+        }else {
+            if($cod_par!=0)
+            {
+              $consul=DB::table('cva')->select("cod_cen")
+              ->where('cod_edo','=', $cod_edo)
+              ->where('cod_mun','=', $cod_mun)
+              ->where('cod_par','=', $cod_par)
+              ->get();
+
+            }else {
+                  if ($cod_mun!=0) {
+                    $consul=DB::table('cva')->select("cod_cen")
+                    ->where('cod_edo','=', $cod_edo)
+                    ->where('cod_mun','=', $cod_mun)
+                    ->get();
+
+            }else {
+              $consul=DB::table('cva')->select("cod_cen")
+              ->where('cod_edo','=', $cod_edo)
+              ->get();
+            }
+
+            }
+        }
+
+
+
+      //  $consul=DB::table('cva')->where('cod_edo','=', $cod_edo)->get();
+
+        return response()->json($consul);
+      }
     }
 
     public function test()// pruebas geograficas! Down
@@ -45,7 +99,12 @@ class MuestrasController extends Controller
        a las personas involucradas en la consulta principal.
 
       */
-
+      // posible solucion :D <-----------------------------------------------------------------------
+      // realizamos un vector global para almacenar los codigos de estados
+      $vectordeprueba[]=10;
+      $vectordeprueba[]=11;
+      $vectordeprueba[]=13;
+      dd($vectordeprueba);
 
        $conds[0]= [ ['cod_edo','=','2'] , ['cod_mun','=','3'], ['cod_par','=','2'] ];
         $conds[1]=  [ ['cod_edo','=','1'] , ['cod_mun','=','1'], ['cod_par','=','1']];
@@ -145,8 +204,33 @@ class MuestrasController extends Controller
 
     public function respuesta(Request $request)
     {
+    // validacion pendiente! JSON!! en  la Vista
+
         $aux= $request->campo;
+        $centros=$request->cod_centro;
+          // seguridad por si no consigue ninguna cedula en la busqueda anterior ALGO Q RARA VEZ PASARA↓.
+          $vectorcedulas[]=0;
+
         //$geo=$request->geografico;
+        if($centros!=null)
+        {
+            //  $vectorcedulas[]=0;
+          $cedulas= DB::table('re2015')->select('ci_cedulados')
+          ->whereIn('cod_cen_cva',$centros)
+          ->get();
+
+          foreach ($cedulas as $cedulas) {
+            $vectorcedulas[]=$cedulas->ci_cedulados;
+          }
+
+
+            // seguridad por si no consigue ninguna cedula en la busqueda anterior ALGO Q RARA VEZ PASARA.
+
+    //  dd($vectorcedulas);
+
+
+
+        }
         $test=["cedula","Primer_nombre"];
 
         $centroinfo = DB::table('cedulados')->select($aux)
@@ -157,10 +241,15 @@ class MuestrasController extends Controller
             ->when($request->sexo, function ($query) use ($request) {       // preguntamos para filtrar por Sexo
                 return $query->where('sexo','=', $request->sexo);
             })
+            ->when($request->cod_centro, function ($query) use ($request, $vectorcedulas) {       // preguntamos para filtrar por Sexo
+                return $query->whereIn('Cedula', $vectorcedulas);
+            })
+
+
 
             ->get();
-
-        return $centroinfo;
+            dd($centroinfo);
+        return $gogo;
         //$request->nacionalidad;
     }
 

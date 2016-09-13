@@ -58,12 +58,13 @@
 
                         </ul>
                         </li>
+                        <li><a href="{{ url('/muestras') }}">Muestras</a></li>
                      @endif
                 </ul>
 
-             
-                   
-                
+
+
+
                 <!-- Right Side Of Navbar -->
                 <ul class="nav navbar-nav navbar-right">
                     <!-- Authentication Links -->
